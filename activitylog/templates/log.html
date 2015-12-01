@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-md-12">
+    <h2>Log for {{ beginning_date.strftime("%A, %B %d, %Y") }} to {{ end_date.strftime("%A, %B %d, %Y") }}</h2>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entry in entries %}
+            <tr>
+                <td><a href="/activities/{{ entry.slug }}">{{ entry.name }}</a></td>
+                <td>{{ entry.startTime.strftime("%Y-%m-%d %I:%M %p") }}</td>
+                <td>{{ entry.endTime.strftime("%Y-%m-%d %I:%M %p") }}</td>
+                <td><a href="/activities/{{ entry.slug }}/edit">Edit</a></td>
+                <td><a href="/activities/{{ entry.slug }}/delete">Delete</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/log/new" class="btn btn-info">New Entry</a>
+</div>
+{% endblock %}

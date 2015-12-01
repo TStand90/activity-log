@@ -3,18 +3,15 @@ from flask_bootstrap import Bootstrap
 from flask.ext.pymongo import PyMongo
 
 
-# from pymongo import MongoClient
 from bson.objectid import ObjectId
+from .session import MongoSessionInterface
 
 
 app = Flask(__name__)
 Bootstrap(app)
 mongo = PyMongo(app)
 
-# client = MongoClient()
-# db = client.flask_activity_log
-# collection = db.activities
-
 app.secret_key = 'thisissupersecret'
+app.session_interface = MongoSessionInterface(db='pjuu')
 
-from app import views
+from activitylog import views

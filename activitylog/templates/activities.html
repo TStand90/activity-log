@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-md-12">
+    <h2>Activities</h2>
+
+    <ul class="list-unstyled">
+        {% for activity in activities %}
+        <li><a href="/activities/{{ activity.slug }}">{{ activity.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <a href="/activities/new" class="btn btn-info">New Activity</a>
+</div>
+{% endblock %}
