@@ -9,6 +9,7 @@ from slugify import slugify
 
 import datetime
 import json
+from bson.objectid import ObjectId
 
 
 @app.route('/')
@@ -74,6 +75,7 @@ def thismonthslog():
 def newlogentry():
     existing_activities = [(activity['name'], activity['name']) for activity in mongo.db.activities.find()]
     existing_activities = set(existing_activities)
+
     form = NewLogEntryForm(existing_activities)
 
     if form.validate_on_submit():
@@ -90,6 +92,40 @@ def newlogentry():
         return redirect('/log/today')
 
     return render_template('new_log_entry.html', form=form)
+
+
+@app.route('/log/<entryid>/edit', methods=['GET', 'POST', 'PATCH'])
+def editlogentry(entryid):
+    entry = mongo.db.entries.find_one({'_id': ObjectId(entryid)})
+    print(entry)
+
+    if not entry:
+        return render_template('404.html'), 404
+
+    existing_activities = [(activity['name'], activity['name']) for activity in mongo.db.activities.find()]
+    existing_activities = set(existing_activities)
+
+    form = NewLogEntryForm(existing_activities)
+
+    if form.validate_on_submit():
+        activity = mongo.db.activities.find_one({'name': form.activity.data})
+
+        data = {
+                'name': form.activity.data,
+                'username': session['username'],
+                'startTime': form.startTime.data,
+                'endTime': form.endTime.data,
+                'slug': activity['slug']}
+
+        mongo.db.entries.update_one({'_id': entry.get('_id')}, {'$set': data}, upsert=False)
+        flash('Entry updated')
+        return redirect('/log/today')
+
+    form.activity.data = entry.get('name')
+    form.startTime.data = entry.get('startTime')
+    form.endTime.data = entry.get('endTime')
+
+    return render_template('edit_log_entry.html', form=form)
 
 
 @app.route('/activities')
