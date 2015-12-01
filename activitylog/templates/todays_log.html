@@ -8,7 +8,9 @@
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Start Date</th>
                 <th>Start Time</th>
+                <th>End Date</th>
                 <th>End Time</th>
                 <th></th>
                 <th></th>
@@ -18,8 +20,10 @@
         {% for entry in entries %}
             <tr>
                 <td><a href="/activities/{{ entry.slug }}">{{ entry.name }}</a></td>
-                <td>{{ entry.startTime.strftime("%Y-%m-%d %I:%M %p") }}</td>
-                <td>{{ entry.endTime.strftime("%Y-%m-%d %I:%M %p") }}</td>
+                <td>{{ entry.startTime.strftime("%b %d, %Y") }}</td>
+                <td>{{ entry.startTime.strftime("%I:%M %p") }}</td>
+                <td>{{ entry.endTime.strftime("%b %d, %Y") }}</td>
+                <td>{{ entry.endTime.strftime("%I:%M %p") }}</td>
                 <td><a href="/activities/{{ entry.slug }}/edit">Edit</a></td>
                 <td><a href="/activities/{{ entry.slug }}/delete">Delete</a></td>
             </tr>
