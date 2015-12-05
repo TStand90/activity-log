@@ -97,7 +97,6 @@ def newlogentry():
 @app.route('/log/<entryid>/edit', methods=['GET', 'POST', 'PATCH'])
 def editlogentry(entryid):
     entry = mongo.db.entries.find_one({'_id': ObjectId(entryid)})
-    print(entry)
 
     if not entry:
         return render_template('404.html'), 404
@@ -126,6 +125,15 @@ def editlogentry(entryid):
     form.endTime.data = entry.get('endTime')
 
     return render_template('edit_log_entry.html', form=form)
+
+
+@app.route('/log/<entryid>/delete')
+def deletelogentry(entryid):
+    mongo.db.entries.remove({'_id': ObjectId(entryid)})
+
+    flash ('Entry deleted')
+
+    return redirect('/log/today')
 
 
 @app.route('/activities')
