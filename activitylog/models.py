@@ -20,6 +20,3 @@ class Activity:
         self.name = name
         self.startTime = self.time_string_to_datetime(startTime)
         self.endTime = self.time_string_to_datetime(endTime)
-
-    def time_string_to_datetime(timeString):
-        pass
