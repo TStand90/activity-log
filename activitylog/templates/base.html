@@ -3,7 +3,16 @@
 {{ super() }}
 <link rel="stylesheet" type="text/css" href="/static/css/custom.css">
 {% endblock %}
-{% block title %}Activity Log{% endblock %}
+
+
+{% block title %}
+    {% if page_title %}
+        Activity Log | {{ page_title }}
+    {% else %}
+        Activity Log
+    {% endif %}
+
+{% endblock %}
 
 {% block navbar %}
     <nav class="navbar navbar-default">

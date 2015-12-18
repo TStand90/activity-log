@@ -19,7 +19,8 @@ def index():
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html',
+                           page_title='About')
 
 
 @app.route('/log/<date>')
@@ -114,7 +115,8 @@ def editlogentry(entryid):
                 'username': session['username'],
                 'startTime': form.startTime.data,
                 'endTime': form.endTime.data,
-                'slug': activity['slug']}
+                'slug': activity['slug']
+        }
 
         mongo.db.entries.update_one({'_id': entry.get('_id')}, {'$set': data}, upsert=False)
         flash('Entry updated')
@@ -131,7 +133,7 @@ def editlogentry(entryid):
 def deletelogentry(entryid):
     mongo.db.entries.remove({'_id': ObjectId(entryid)})
 
-    flash ('Entry deleted')
+    flash('Entry deleted')
 
     return redirect('/log/today')
 
